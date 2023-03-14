@@ -1,8 +1,14 @@
 package com.ll.basic1;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.ToString;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.*;
 
 // @Controller 의 의미
 // 개발자가 스프링부트에게 말한다.
@@ -10,9 +16,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class HomeController {
     private int cnt;
+    private List<Person> people;
+    private int id;
 
     HomeController() {
         cnt = 0;
+        people = new ArrayList<>();
+        id = 1;
     }
     // @GetMapping("/home/main") 의 의미
     // 개발자가 스프링부트에게 말한다.
@@ -39,4 +49,39 @@ public class HomeController {
     public int showIncrease() {
         return cnt++;
     }
+    @GetMapping("/home/plus")
+    @ResponseBody
+    public int showPlus(@RequestParam(defaultValue = "0") int a, @RequestParam int b) {
+        return a+b;
+    }
+
+    @GetMapping("/home/addPerson")
+    @ResponseBody
+    public String addPerson(@RequestParam String name, @RequestParam int age) {
+        Person newPerson = new Person(id++, name, age);
+        people.add(newPerson);
+        return String.format("%d번 사람이 추가되었습니다.", newPerson.getId());
+    }
+    @GetMapping("/home/people")
+    @ResponseBody
+    public List<Person> showPeople() {
+        return people;
+    }
+    @GetMapping("/home/removePerson")
+    @ResponseBody
+    public String removePerson(int id) {
+        if(people.removeIf(v -> v.getId() == id)) {
+            return String.format("%d번 사람이 삭제되었습니다.", id);
+        }
+        return String.format("%d번 사람이 존재하지 않습니다.", id);
+    }
+}
+
+@AllArgsConstructor
+@Getter
+@ToString
+class Person {
+    private final int id;
+    private final String name;
+    private final int age;
 }
