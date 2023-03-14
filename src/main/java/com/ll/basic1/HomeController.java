@@ -79,14 +79,19 @@ public class HomeController {
     @GetMapping("/home/modifyPerson")
     @ResponseBody
     public String modifyPerson(int id, String name, int age) {
-        for (Person v : people) {
-            if (v.getId() == id) {
-                v.setName(name);
-                v.setAge(age);
-                return String.format("%d번 사람이 수정되었습니다.", id);
-            }
+        Person found = people
+                .stream()
+                .filter(p -> p.getId() == id)
+                .findFirst()
+                .orElse(null);
+
+        if (found == null) {
+            return "%d번 사람이 존재하지 않습니다.".formatted(id);
         }
-        return String.format("%d번 사람이 존재하지 않습니다.", id);
+        found.setName(name);
+        found.setAge(age);
+
+        return "%d번 사람이 수정되었습니다.".formatted(id);
     }
 }
 
