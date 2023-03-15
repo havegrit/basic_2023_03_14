@@ -1,5 +1,7 @@
 package com.ll.basic1.boundedContext.home.controller;
 
+import com.ll.basic1.boundedContext.member.entity.Member;
+import com.ll.basic1.boundedContext.member.service.MemberService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -23,11 +25,13 @@ public class HomeController {
     private int cnt;
     private List<Person> people;
     private int id;
+    private MemberService memberService;
 
     HomeController() {
         cnt = 0;
         people = new ArrayList<>();
         id = 1;
+        memberService = new MemberService();
     }
     // @GetMapping("/home/main") 의 의미
     // 개발자가 스프링부트에게 말한다.
@@ -140,6 +144,11 @@ public class HomeController {
         return "%d번 사람이 수정되었습니다.".formatted(id);
     }
 
+    @GetMapping("/home/user1")
+    @ResponseBody
+    public Member showUser1() {
+        return memberService.findByUsername("user1");
+    }
 
 }
 
