@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,13 +26,14 @@ public class HomeController {
     private int cnt;
     private List<Person> people;
     private int id;
+    //필드 주입
+    @Autowired
     private MemberService memberService;
 
     HomeController() {
         cnt = 0;
         people = new ArrayList<>();
         id = 1;
-        memberService = new MemberService();
     }
     // @GetMapping("/home/main") 의 의미
     // 개발자가 스프링부트에게 말한다.
