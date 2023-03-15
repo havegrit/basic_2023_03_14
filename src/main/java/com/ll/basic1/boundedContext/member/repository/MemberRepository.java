@@ -1,8 +1,6 @@
 package com.ll.basic1.boundedContext.member.repository;
 
 import com.ll.basic1.boundedContext.member.entity.Member;
-import lombok.Getter;
-import org.springframework.boot.autoconfigure.data.ConditionalOnRepositoryType;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;

@@ -26,7 +26,7 @@ import java.util.List;
 @Controller
 public class HomeController {
     private int cnt;
-    private final List<Person> people;
+    private List<Person> people;
     private int id;
 
     private final MemberService memberService;
