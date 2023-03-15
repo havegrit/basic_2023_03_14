@@ -1,5 +1,8 @@
-package com.ll.basic1;
+package com.ll.basic1.boundedContext.home.controller;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.IOException;
 import java.util.*;
 
 // @Controller 의 의미
@@ -50,6 +54,48 @@ public class HomeController {
     public int showIncrease() {
         return cnt++;
     }
+    @GetMapping("/home/reqAndResp")
+    @ResponseBody
+    public void showReqAndResp(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        int age = Integer.parseInt(req.getParameter("age"));
+        resp.getWriter().append("Hello you're %d years old.".formatted(age));
+    }
+//    @GetMapping("/home/cookie/increase")
+//    @ResponseBody
+//    public int showCookieIncrease(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+//        int countInCookie = 0;
+//        if(req.getCookies() != null){
+//            countInCookie = Arrays.stream(req.getCookies())
+//                    .filter(cookie -> cookie.getName().equals("count"))
+//                    .map(cookie -> cookie.getValue())
+//                    .mapToInt(Integer::parseInt)
+//                    .findFirst()
+//                    .orElse(0);
+//        }
+//
+//        int newCountInCookie = countInCookie+1;
+//        resp.addCookie(new Cookie("count", newCountInCookie + ""));
+//
+//        return countInCookie;
+//    }
+
+    @GetMapping("/home/cookie/increase")
+    @ResponseBody
+    public int showCookieIncrease(HttpServletRequest req, HttpServletResponse resp) {
+        int cookieInCount = 0;
+        if (req.getCookies() != null) {
+            cookieInCount = Arrays.stream(req.getCookies())
+                    .filter(cookie -> cookie.getName().equals("count"))
+                    .map(Cookie::getValue)
+                    .mapToInt(Integer::parseInt)
+                    .findFirst()
+                    .orElse(0);
+        }
+        int newCookieIntCount = cookieInCount+1;
+        resp.addCookie(new Cookie("count", newCookieIntCount + ""));
+        return cookieInCount;
+    }
+
     @GetMapping("/home/plus")
     @ResponseBody
     public int showPlus(@RequestParam(defaultValue = "0") int a, @RequestParam int b) {
@@ -93,6 +139,8 @@ public class HomeController {
 
         return "%d번 사람이 수정되었습니다.".formatted(id);
     }
+
+
 }
 
 @AllArgsConstructor
@@ -105,3 +153,4 @@ class Person {
     @Setter
     private int age;
 }
+
