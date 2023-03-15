@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 // @Controller 의 의미
 // 개발자가 스프링부트에게 말한다.
@@ -24,16 +26,16 @@ import java.util.*;
 @Controller
 public class HomeController {
     private int cnt;
-    private List<Person> people;
+    private final List<Person> people;
     private int id;
-    //필드 주입
-    @Autowired
-    private MemberService memberService;
 
-    HomeController() {
+    private final MemberService memberService;
+    @Autowired //생략가능
+    HomeController(MemberService memberService) {
         cnt = 0;
         people = new ArrayList<>();
         id = 1;
+        this.memberService = memberService;
     }
     // @GetMapping("/home/main") 의 의미
     // 개발자가 스프링부트에게 말한다.
