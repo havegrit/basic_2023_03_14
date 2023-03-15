@@ -31,6 +31,14 @@ public class MemberRepository {
                 .findFirst()
                 .orElse(null);
     }
+
+    public Member findById(long id) {
+        return memberList
+                .stream()
+                .filter(m -> m.getId() == id)
+                .findFirst()
+                .orElse(null);
+    }
 }
 
 
