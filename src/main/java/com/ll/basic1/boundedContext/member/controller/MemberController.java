@@ -16,21 +16,8 @@ public class MemberController {
     private final Rq rq;
 
     @GetMapping("/member/login")
-    @ResponseBody
     public String showLogin() {
-        if(rq.isLogin()){
-            return """
-                    <h1>already login !</h1>   
-                    """.stripIndent();
-        }
-        return """
-                <h1>Login</h1>
-                <form method="get" action="doLogin" target="_blank">
-                  <input type="text" name="username" placeholder="ID">
-                  <input type="password" name="password" placeholder="PW">
-                  <button type="submit">로그인</button>
-                </form>
-                """.stripIndent();
+        return "usr/member/login";
     }
 
     @GetMapping("/member/doLogin")
