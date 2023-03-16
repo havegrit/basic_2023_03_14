@@ -4,28 +4,20 @@ import com.ll.basic1.base.rq.Rq;
 import com.ll.basic1.base.rsData.RsData;
 import com.ll.basic1.boundedContext.member.entity.Member;
 import com.ll.basic1.boundedContext.member.service.MemberService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
+@AllArgsConstructor
 public class MemberController {
     private final MemberService memberService;
-
     private final Rq rq;
 
-    // 생성자 주입
-    @Autowired
-    public MemberController(MemberService memberService, HttpServletRequest req, HttpServletResponse resp) {
-        this.memberService = memberService;
-        rq = new Rq(req, resp);
-    }
     @GetMapping("/member/login")
     @ResponseBody
-    public RsData login(String username, String password, HttpServletRequest req,HttpServletResponse resp) {
+    public RsData login(String username, String password) {
         if (username == null || username.trim().length() == 0) {
             return RsData.of("F-3", "username을 입력해주세요.");
         } else if (password == null || password.trim().length() == 0) {
@@ -41,7 +33,7 @@ public class MemberController {
 
     @GetMapping("/member/me")
     @ResponseBody
-    public RsData showMe(HttpServletRequest req, HttpServletResponse resp) {
+    public RsData showMe() {
         long loginMemberId = rq.getCookieAsLong("loginMemberId", 0);
         boolean isLogin = loginMemberId > 0;
         if (!isLogin) {
@@ -54,7 +46,7 @@ public class MemberController {
     }
     @GetMapping("/member/logout")
     @ResponseBody
-    public RsData logout(HttpServletRequest req, HttpServletResponse resp) {
+    public RsData logout() {
         boolean isLogout = rq.removeCookie("loginMemberId");
         if (isLogout) {
             return RsData.of("S-1", "로그아웃 되었습니다.");

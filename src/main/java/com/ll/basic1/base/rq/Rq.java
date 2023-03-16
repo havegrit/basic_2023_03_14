@@ -4,10 +4,14 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.RequestScope;
 
 import java.util.Arrays;
 
 @AllArgsConstructor
+@Component
+@RequestScope
 public class Rq {
     HttpServletRequest req;
     HttpServletResponse resp;
