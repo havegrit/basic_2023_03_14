@@ -1,4 +1,4 @@
-package com.ll.basic1;
+package com.ll.basic1.base.rq;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,24 +22,24 @@ public class Rq {
             value = Arrays.stream(req.getCookies())
                     .filter(cookie -> cookie.getName().equals(name))
                     .findFirst()
-                    .map(cookie -> cookie.getValue())
+                    .map(Cookie::getValue)
                     .orElse(defaultValue);
         }
         return value;
     }
     public long getCookieAsLong(String name, long defaultValue) {
-        long value = 0;
-        if (req.getCookies() != null) {
-            value = Arrays.stream(req.getCookies())
-                    .filter(cookie -> cookie.getName().equals(name))
-                    .findFirst()
-                    .map(cookie -> Long.parseLong(cookie.getValue()))
-                    .orElse(defaultValue);
+        String value = getCookie(name, null);
+        if (value == null) {
+            return defaultValue;
         }
-        return value;
+        try {
+            return Long.parseLong(value);
+        } catch (NumberFormatException e) {
+            return defaultValue;
+        }
     }
 
-    public void removeCookie(String name) {
+    public boolean removeCookie(String name) {
         if (req.getCookies() != null) {
             Arrays.stream(req.getCookies())
                     .filter(e -> e.getName().equals(name))
@@ -47,7 +47,10 @@ public class Rq {
                         cookie.setMaxAge(0);
                         resp.addCookie(cookie);
                     });
+            return Arrays.stream(req.getCookies())
+                    .filter(cookie -> cookie.getName().equals(name))
+                    .count() > 0;
         }
+        return false;
     }
-
 }

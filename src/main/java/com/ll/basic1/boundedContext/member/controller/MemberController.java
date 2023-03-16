@@ -1,10 +1,9 @@
 package com.ll.basic1.boundedContext.member.controller;
 
-import com.ll.basic1.Rq;
+import com.ll.basic1.base.rq.Rq;
 import com.ll.basic1.base.rsData.RsData;
 import com.ll.basic1.boundedContext.member.entity.Member;
 import com.ll.basic1.boundedContext.member.service.MemberService;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.Arrays;
-
 @Controller
 public class MemberController {
     private final MemberService memberService;
 
-    private Rq rq;
+    private final Rq rq;
 
     // 생성자 주입
     @Autowired
@@ -58,7 +55,10 @@ public class MemberController {
     @GetMapping("/member/logout")
     @ResponseBody
     public RsData logout(HttpServletRequest req, HttpServletResponse resp) {
-        rq.removeCookie("loginMemberId");
-        return RsData.of("S-1", "로그아웃 되었습니다.");
+        boolean isLogout = rq.removeCookie("loginMemberId");
+        if (isLogout) {
+            return RsData.of("S-1", "로그아웃 되었습니다.");
+        }
+        return RsData.of("S-2", "이미 로그아웃 되었습니다.");
     }
 }
