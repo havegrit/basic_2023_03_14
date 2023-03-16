@@ -84,4 +84,12 @@ public class Rq {
         session.removeAttribute(name);
         return true;
     }
+
+    public boolean isLogin() {
+        long loginMemberId = getSessionAsLong("loginMemberId", 0);
+        return loginMemberId > 0;
+    }
+    public boolean isLogout() {
+        return !isLogin();
+    }
 }
