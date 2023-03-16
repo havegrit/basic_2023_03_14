@@ -43,7 +43,7 @@ public class MemberController {
     public String showMe(Model model) {
         long loginMemberId = rq.getLoginMemberId();
         Member member = memberService.findById(loginMemberId);
-        model.addAttribute("me", member);
+        model.addAttribute("member", member);
         return "usr/member/me";
     }
     @GetMapping("/member/logout")
