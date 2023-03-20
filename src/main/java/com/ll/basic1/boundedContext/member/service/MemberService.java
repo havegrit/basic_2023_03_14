@@ -32,6 +32,7 @@ public class MemberService {
                 .username(username)
                 .password(password)
                 .build();
+        memberRepository.save(member);
         return member;
     }
 }

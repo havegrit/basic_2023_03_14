@@ -19,7 +19,7 @@ public class NotProd {
             memberService.join("test", "12346");
             memberService.join("love", "12347");
             memberService.join("like", "12348");
-            memberService.join("giviing", "12349");
+            memberService.join("giving", "12349");
             memberService.join("thanks", "123410");
             memberService.join("hello", "123411");
             memberService.join("good", "123412");
