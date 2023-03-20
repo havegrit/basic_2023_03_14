@@ -16,8 +16,8 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Entity
 @Getter
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 public class Article {
     @Id
@@ -29,5 +29,4 @@ public class Article {
     private LocalDateTime modify_date;
     private String title;
     private String body;
-
 }

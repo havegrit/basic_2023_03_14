@@ -1,8 +1,8 @@
-package com.ll.basic1.boundedContext.article.entity.controller;
+package com.ll.basic1.boundedContext.article.controller;
 
 import com.ll.basic1.base.rsData.RsData;
 import com.ll.basic1.boundedContext.article.entity.Article;
-import com.ll.basic1.boundedContext.article.entity.service.ArticleService;
+import com.ll.basic1.boundedContext.article.service.ArticleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
